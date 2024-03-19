@@ -1,0 +1,591 @@
+﻿Program.Sub.ScreenSU.Start
+Gui.frmMain..Create(BaseForm)
+Gui.frmMain..Caption("Pin Price & Cost (6853)")
+Gui.frmMain..Size(520,538)
+Gui.frmMain..MinX(0)
+Gui.frmMain..MinY(0)
+Gui.frmMain..Position(0,0)
+Gui.frmMain..AlwaysOnTop(False)
+Gui.frmMain..FontName("Tahoma")
+Gui.frmMain..FontSize(8.25)
+Gui.frmMain..ControlBox(True)
+Gui.frmMain..MaxButton(True)
+Gui.frmMain..MinButton(True)
+Gui.frmMain..MousePointer(0)
+Gui.frmMain..Moveable(True)
+Gui.frmMain..Sizeable(True)
+Gui.frmMain..ShowInTaskBar(True)
+Gui.frmMain..TitleBar(True)
+Gui.frmMain..Event(UnLoad,frmMain_UnLoad)
+Gui.frmMain.cmdSelect.Create(Button)
+Gui.frmMain.cmdSelect.Enabled(True)
+Gui.frmMain.cmdSelect.Visible(True)
+Gui.frmMain.cmdSelect.Zorder(0)
+Gui.frmMain.cmdSelect.Size(24,24)
+Gui.frmMain.cmdSelect.Position(147,15)
+Gui.frmMain.cmdSelect.Caption("^")
+Gui.frmMain.cmdSelect.FontName("Tahoma")
+Gui.frmMain.cmdSelect.FontSize(8.25)
+Gui.frmMain.cmdSelect.ToolTip("Select Existing Data")
+Gui.frmMain.cmdSelect.Event(Click,cmdSelect_Click)
+Gui.frmMain.gsgcPin.Create(GsGridControl)
+Gui.frmMain.gsgcPin.Enabled(True)
+Gui.frmMain.gsgcPin.Visible(True)
+Gui.frmMain.gsgcPin.Zorder(0)
+Gui.frmMain.gsgcPin.Size(502,445)
+Gui.frmMain.gsgcPin.Position(8,55)
+Gui.frmMain.gsgcPin.Anchor(15)
+Gui.frmMain.gsgcPin.Event(CellValueChanged,gsgcPin_CellValueChanged)
+Gui.frmMain.lblDateSeq.Create(Label,"Date",True,23,13,0,22,20,True,0,"Tahoma",8.25,,0,0)
+Gui.frmMain.lblDateSeq.BorderStyle(0)
+Gui.frmMain.cmdExport.Create(Button)
+Gui.frmMain.cmdExport.Enabled(True)
+Gui.frmMain.cmdExport.Visible(True)
+Gui.frmMain.cmdExport.Zorder(0)
+Gui.frmMain.cmdExport.Size(24,24)
+Gui.frmMain.cmdExport.Position(483,13)
+Gui.frmMain.cmdExport.Caption("")
+Gui.frmMain.cmdExport.FontName("Tahoma")
+Gui.frmMain.cmdExport.FontSize(8.25)
+Gui.frmMain.cmdExport.SvgPicture("icon_export_black")
+Gui.frmMain.cmdExport.ToolTip("Export Gridview")
+Gui.frmMain.cmdExport.Anchor(9)
+Gui.frmMain.cmdExport.Event(Click,cmdExport_Click)
+Gui.frmMain.cmdImport.Create(Button)
+Gui.frmMain.cmdImport.Enabled(True)
+Gui.frmMain.cmdImport.Visible(True)
+Gui.frmMain.cmdImport.Zorder(0)
+Gui.frmMain.cmdImport.Size(24,24)
+Gui.frmMain.cmdImport.Position(453,13)
+Gui.frmMain.cmdImport.Anchor(9)
+Gui.frmMain.cmdImport.Caption("")
+Gui.frmMain.cmdImport.FontName("Tahoma")
+Gui.frmMain.cmdImport.FontSize(8.25)
+Gui.frmMain.cmdImport.ToolTip("Import Data")
+Gui.frmMain.cmdImport.SvgPicture("icon_add_black")
+Gui.frmMain.cmdImport.Event(Click,cmdImport_Click)
+Gui.frmMain.txtSelectedDate.Create(TextBox,"",True,92,20,0,51,17,False,0,"Tahoma",8.25,,1)
+Gui.frmMain.lkupDateSeq.Create(Lookup)
+Gui.frmMain.lkupDateSeq.Enabled(True)
+Gui.frmMain.lkupDateSeq.PopulateMode(4)
+Gui.frmMain.lkupDateSeq.Title("Date Sequence")
+Gui.frmMain.lkupDateSeq.StringBasis("")
+Gui.frmMain.lkupDateSeq.FileBasis("")
+Gui.frmMain.lkupDateSeq.ColumnDelim("")
+Gui.frmMain.lkupDateSeq.RowDelim("")
+Gui.frmMain.lkupDateSeq.PreferredStyle(0)
+Gui.frmMain.lkupDateSeq.AssociatedControl("cmdSelect")
+Gui.frmMain.lkupDateSeq.Event(SelectionMade,lkupDateSeq_SelectionMade)
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+Program.External.Include.Library("GAB_6853_LIBRARY.lib")
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+Function.Intrinsic.UI.UsePixels ' Allows you to use Pixels instead of Twips throughout
+
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	
+	f.ODBC.Connection!con.OpenConnection(v.Ambient.PDSN,v.Ambient.PUser,v.Ambient.PPass)
+	
+'	F.Intrinsic.Control.CallSub(CheckCustomTables)
+	F.Intrinsic.Control.CallSub(PopulateLookupDateSeq)
+	
+	'Prevent the form from using DarkTheme
+	f.Intrinsic.Task.SetEnvironmentVariable("USEDARKTHEME",False)
+	gui.frmMain..ApplyTheme
+	
+	gui.frmMain..ApplySavedSettings
+	
+	gui.frmMain..Show
+	
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+	f.Intrinsic.UI.Msgbox(V.Local.sError)	
+	f.Intrinsic.Control.CallSub(frmMain_UnLoad)
+f.Intrinsic.Control.EndTry
+Program.Sub.Main.End
+
+Program.Sub.frmMain_UnLoad.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	
+	f.Intrinsic.Control.If(v.DataTable.dtPin.Exists)
+		f.Data.DataTable.Close("dtPin")
+	f.Intrinsic.Control.EndIf
+	
+	f.Intrinsic.Control.If(v.DataTable.dtImport.Exists)
+		f.Data.DataTable.Close("dtImport")
+	f.Intrinsic.Control.EndIf
+	
+	f.Intrinsic.Control.If(v.DataTable.dtFinalTable.Exists)
+		f.Data.DataTable.Close("dtFinalTable")
+	f.Intrinsic.Control.EndIf
+	
+	F.Intrinsic.Control.If(v.DataTable.dtImportDistinctDate.Exists)
+		F.Data.DataTable.Close("dtImportDistinctDate")
+	F.Intrinsic.Control.EndIf
+	
+	f.Intrinsic.Control.If(V.ODBC.con.State,=,1)
+		f.ODBC.Connection!con.close
+	f.Intrinsic.Control.EndIf
+	
+	gui.frmMain..SaveSettings
+	
+	f.Intrinsic.Control.End
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+	f.Intrinsic.UI.Msgbox(V.Local.sError)	
+	f.Intrinsic.Control.End
+f.Intrinsic.Control.EndTry
+Program.Sub.frmMain_UnLoad.End
+
+'Program.Sub.CheckCustomTables.Start
+'f.Intrinsic.Control.Try
+'	v.Local.sError.Declare
+'	V.Local.bExist.Declare
+'	
+'	F.ODBC.Connection!con.TableExists("GAB_6853_PIN_PR_CS",v.Local.bExist)
+'	F.Intrinsic.Control.If(v.Local.bExist.Not)
+'		F.ODBC.Connection!con.Execute("CREATE TABLE GAB_6853_PIN_PR_CS(DATE_SEQ CHAR(10) NOT NULL, PART CHAR(20) NOT NULL, PRICE NUMERIC(18,6) NOT NULL DEFAULT 0, COST NUMERIC(18,6) NOT NULL DEFAULT 0);")
+'		F.ODBC.Connection!con.Execute("CREATE INDEX GAB_6853_PIN_PR_CS00 ON GAB_6853_PIN_PR_CS ( DATE_SEQ );")
+'		F.ODBC.Connection!con.Execute("CREATE INDEX GAB_6853_PIN_PR_CS01 ON GAB_6853_PIN_PR_CS ( PART );")
+'		F.ODBC.Connection!con.Execute("CREATE INDEX GAB_6853_PIN_PR_CS02 ON GAB_6853_PIN_PR_CS ( DATE_SEQ, PART );")
+'	F.Intrinsic.Control.EndIf
+'	
+'f.Intrinsic.Control.Catch
+'	f.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+'	f.Intrinsic.UI.Msgbox(V.Local.sError)	
+'	f.Intrinsic.Control.CallSub(frmMain_UnLoad)
+'f.Intrinsic.Control.EndTry	
+'Program.Sub.CheckCustomTables.End
+
+Program.Sub.PopulateLookupDateSeq.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	v.Local.sQuery.Declare
+	
+	f.Intrinsic.Control.If(v.DataTable.dtDateSeq.Exists,=,False)
+		f.Data.DataTable.CreateFromSQL("dtDateSeq","con","select distinct DATE_SEQ from GAB_6853_PIN_PR_CS order by DATE_SEQ DESC;",True)
+		
+		gui.frmMain.lkupDateSeq.ColumnNames()
+		gui.frmMain.lkupDateSeq.DataTableBasis("dtDateSeq")
+		gui.frmMain.lkupDateSeq.Initialize
+	f.Intrinsic.Control.EndIf
+
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+	f.Intrinsic.UI.Msgbox(V.Local.sError)	
+	f.Intrinsic.Control.CallSub(frmMain_UnLoad)
+f.Intrinsic.Control.EndTry		
+Program.Sub.PopulateLookupDateSeq.End
+
+Program.Sub.lkupDateSeq_SelectionMade.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	v.Local.sQuery.Declare
+	v.Local.sSelectedDate.Declare
+	
+	F.Intrinsic.Control.If(V.DataTable.dtPin.Exists)
+		F.Data.DataTable.Close("dtPin")
+	F.Intrinsic.Control.EndIf
+	
+	v.Local.sSelectedDate.Set(V.DataTable.lkupDateSeq_Result(0).DATE_SEQ!FieldValTrim)
+	gui.frmMain.txtSelectedDate.Text(v.Local.sSelectedDate)
+	F.Intrinsic.String.Build("select DATE_SEQ, PART, PRICE, COST from GAB_6853_PIN_PR_CS where DATE_SEQ = '{0}' order by PART;",v.Local.sSelectedDate,v.Local.sQuery)
+	F.Data.DataTable.CreateFromSQL("dtPin","con",v.Local.sQuery,True)
+	
+	'Bind DataTable to GridView
+	Gui.frmMain.gsgcPin.AddGridviewFromDatatable("gvPin","dtPin")
+	
+	'Format the Gridview
+	Gui.frmMain.gsgcPin.SetGridviewProperty("gvPin","EnableAppearanceOddRow",True)
+	Gui.frmMain.gsgcPin.SetGridviewProperty("gvPin","ShowGroupPanel",False)
+	Gui.frmMain.gsgcPin.SetGridviewProperty("gvPin","MultiSelect",False)
+	
+	'Invisible
+	f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcPin","GV","gvPin","sInputColumns","DATE_SEQ","sProperty","Invisible")
+			
+	'Caption
+	f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcPin","GV","gvPin","sInputColumns","DATE_SEQ@!@Date,PART@!@Part,PRICE@!@Price,COST@!@Cost","sProperty","Caption")
+	
+	'Header Font Bold
+	f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcPin","GV","gvPin","sInputColumns","DATE_SEQ,PART,PRICE,COST","sProperty","HeaderFontBold")
+	
+	'Width	
+	f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcPin","GV","gvPin","sInputColumns","DATE_SEQ","sProperty","MinWidth","sWidth","60")
+	f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcPin","GV","gvPin","sInputColumns","PART","sProperty","MinWidth","sWidth","130")
+	f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcPin","GV","gvPin","sInputColumns","PRICE,COST","sProperty","MinWidth","sWidth","80")
+	
+	'Format Decimal
+	f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcPin","GV","gvPin","sInputColumns","PRICE,COST","sProperty","Decimal_6")
+	
+	'Cell Value Changed	
+	f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcPin","GV","gvPin","sInputColumns","PRICE,COST","sProperty","For_CellValue_Changed")
+	
+	'Row Cell Click	
+	f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcPin","GV","gvPin","sInputColumns","DATE_SEQ,PART","sProperty","For_RowCell_Click")
+	
+'	'Display Custom DateTime
+'	f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcPin","GV","gvPin","sInputColumns","DATE_SEQ","sProperty","DisplayCustomDateTime","sDateTimeFormat","d")
+	
+	'Set the main view of the gridview
+	Gui.frmMain.gsgcPin.MainView("gvPin")
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+	f.Intrinsic.UI.Msgbox(V.Local.sError)	
+	f.Intrinsic.Control.CallSub(frmMain_UnLoad)
+f.Intrinsic.Control.EndTry		
+Program.Sub.lkupDateSeq_SelectionMade.End
+
+Program.Sub.cmdSelect_Click.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+
+	f.Intrinsic.Control.CallSub(PopulateLookupDateSeq)
+	
+	gui.frmMain.cmdSelect.Enabled(False)
+	gui.frmMain.lkupDateSeq.Show
+	gui.frmMain.cmdSelect.Enabled(True)
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+	f.Intrinsic.UI.Msgbox(V.Local.sError)	
+	f.Intrinsic.Control.CallSub(frmMain_UnLoad)
+f.Intrinsic.Control.EndTry		
+Program.Sub.cmdSelect_Click.End
+
+Program.Sub.cmdExport_Click.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	v.Local.sFileExport.Declare
+	v.Local.bFileLocked.Declare
+	v.Local.sMsg.Declare
+	
+	gui.frmMain..Enabled(False)
+	
+	F.Intrinsic.Control.If(v.DataTable.dtPin.Exists)
+		f.Intrinsic.String.Build("{0}\GAB_6853_PIN_PRICE_COST_Export.xlsx",v.Caller.LocalGSSTempDir,v.Local.sFileExport)
+		f.Intrinsic.File.IsFileLocked(v.Local.sFileExport,v.Local.bFileLocked)
+		f.Intrinsic.Control.If(V.Local.bFileLocked)
+			f.Intrinsic.String.Build("File is already opened.{0}Please close the file and export again.",V.Ambient.NewLine,V.Local.sMsg)
+			gui.frmMain..ShowAlert("myAlert","Pin Price & Cost (6853)",v.Local.sMsg)
+			gui.frmMain..UpdateAlertProperty("myAlert",v.Enum.AlertPropertyNames!SvgImage,v.Enum.Image!ERROR_BLACK)
+		f.Intrinsic.Control.Else
+			'Visible
+			f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcPin","GV","gvPin","sInputColumns","DATE_SEQ,PART,PRICE,COST","sProperty","Visible")
+			gui.frmMain.gsgcPin.Export(v.Local.sFileExport,"xlsx")
+			'Invisible
+			f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcPin","GV","gvPin","sInputColumns","DATE_SEQ","sProperty","Invisible")
+			f.Intrinsic.Task.ShellExec(0,"",v.Local.sFileExport,"","",1)
+		f.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.Else
+		gui.frmMain..ShowAlert("myAlert","Pin Price & Cost (6853)","No Data to export")
+		gui.frmMain..UpdateAlertProperty("myAlert",v.Enum.AlertPropertyNames!SvgImage,v.Enum.Image!ERROR_BLACK)
+	F.Intrinsic.Control.EndIf
+	
+	gui.frmMain..Enabled(True)
+	
+	gui.frmMain..SetFocus
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+	f.Intrinsic.UI.Msgbox(V.Local.sError)	
+	f.Intrinsic.Control.CallSub(frmMain_UnLoad)
+f.Intrinsic.Control.EndTry		
+Program.Sub.cmdExport_Click.End
+
+Program.Sub.cmdImport_Click.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	v.Local.sFile.Declare
+	v.Local.sDir.Declare
+	V.Local.sFileExt.Declare
+	V.Local.bExcelExists.Declare
+	v.Local.sQuery.Declare
+	v.Local.sSelectedDate.Declare
+	
+	F.Intrinsic.String.Build("{0}\Select File",V.Caller.FilesDir,V.Local.sDir)
+	F.Intrinsic.UI.ShowOpenFileDialog("","Supported Files|*.xls;*.xlsx","",V.Local.sFile)
+	F.Intrinsic.Control.If(V.Local.sFile,<>,"***CANCEL***")
+		F.Intrinsic.File.GetExtensionComponent(v.Local.sFile.Trim,V.Local.sFileExt)
+		F.Intrinsic.Control.If(V.Local.sFileExt.UCase,=,"XLS","or",V.Local.sFileExt.UCase,=,"XLSX")
+			F.Automation.MSExcel.CheckPresence(V.Local.bExcelExists)
+			F.Intrinsic.Control.If(V.Local.bExcelExists)				
+				Gui.frmMain.gsgcPin.InvokeWait("Updating... Please wait...","Pin Price & Cost (6853)")
+				F.Intrinsic.Control.CallSub(LoadExcelFile,"sFile",v.Local.sFile.Trim)
+				f.Intrinsic.Control.If(v.Args.bSuccess)
+					gui.frmMain..ShowAlert("myAlert","Pin Price & Cost (6853)","Update Data Successful.")
+					gui.frmMain..UpdateAlertProperty("myAlert",v.Enum.AlertPropertyNames!SvgImage,v.Enum.Image!CHECK_BLACK)
+					
+					F.Intrinsic.Control.If(v.DataTable.dtDateSeq.Exists)
+						f.Data.DataTable.Close("dtDateSeq")
+					F.Intrinsic.Control.EndIf
+					F.Intrinsic.Control.CallSub(PopulateLookupDateSeq)
+					
+					'Show the new data to the gridview
+					F.Intrinsic.Control.If(V.DataTable.dtPin.Exists)
+						F.Data.DataTable.Close("dtPin")
+					F.Intrinsic.Control.EndIf
+					
+					v.Local.sSelectedDate.Set(v.Args.sDATE_SEQ)
+					gui.frmMain.txtSelectedDate.Text(v.Local.sSelectedDate)
+					F.Intrinsic.String.Build("select DATE_SEQ, PART, PRICE, COST from GAB_6853_PIN_PR_CS where DATE_SEQ = '{0}' order by PART;",v.Local.sSelectedDate,v.Local.sQuery)
+					F.Data.DataTable.CreateFromSQL("dtPin","con",v.Local.sQuery,True)
+					
+					'Bind DataTable to GridView
+					Gui.frmMain.gsgcPin.AddGridviewFromDatatable("gvPin","dtPin")
+					
+					'Format the Gridview
+					Gui.frmMain.gsgcPin.SetGridviewProperty("gvPin","EnableAppearanceOddRow",True)
+					Gui.frmMain.gsgcPin.SetGridviewProperty("gvPin","ShowGroupPanel",False)
+					Gui.frmMain.gsgcPin.SetGridviewProperty("gvPin","MultiSelect",False)
+					
+					'Caption
+					f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcPin","GV","gvPin","sInputColumns","DATE_SEQ@!@Date,PART@!@Part,PRICE@!@Price,COST@!@Cost","sProperty","Caption")
+					
+					'Header Font Bold
+					f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcPin","GV","gvPin","sInputColumns","DATE_SEQ,PART,PRICE,COST","sProperty","HeaderFontBold")
+					
+					'Width	
+					f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcPin","GV","gvPin","sInputColumns","DATE_SEQ","sProperty","MinWidth","sWidth","60")
+					f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcPin","GV","gvPin","sInputColumns","PART","sProperty","MinWidth","sWidth","130")
+					f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcPin","GV","gvPin","sInputColumns","PRICE,COST","sProperty","MinWidth","sWidth","80")
+					
+					'Format Decimal
+					f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcPin","GV","gvPin","sInputColumns","PRICE,COST","sProperty","Decimal_6")
+					
+					'Cell Value Changed	
+					f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcPin","GV","gvPin","sInputColumns","PRICE,COST","sProperty","For_CellValue_Changed")
+					
+					'Row Cell Click	
+					f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcPin","GV","gvPin","sInputColumns","DATE_SEQ,PART","sProperty","For_RowCell_Click")
+					
+				'	'Display Custom DateTime
+				'	f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcPin","GV","gvPin","sInputColumns","DATE_SEQ","sProperty","DisplayCustomDateTime","sDateTimeFormat","d")
+					
+					'Set the main view of the gridview
+					Gui.frmMain.gsgcPin.MainView("gvPin")
+				f.Intrinsic.Control.EndIf
+				Gui.frmMain.gsgcPin.HideWait
+				Gui.frmMain..SetFocus
+			F.Intrinsic.Control.Else
+				gui.frmMain..ShowAlert("myAlert","Pin Price & Cost (6853)","You need MS Excel in order to import data")
+				gui.frmMain..UpdateAlertProperty("myAlert",v.Enum.AlertPropertyNames!SvgImage,v.Enum.Image!ERROR_BLACK)
+				f.Intrinsic.Control.ExitSub
+			F.Intrinsic.Control.EndIf
+		F.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.EndIf
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+	f.Intrinsic.UI.Msgbox(V.Local.sError)	
+	f.Intrinsic.Control.CallSub(frmMain_UnLoad)
+f.Intrinsic.Control.EndTry		
+Program.Sub.cmdImport_Click.End
+
+Program.Sub.LoadExcelFile.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	v.Local.sFilename.Declare
+	V.Local.bIsLocked.Declare
+	v.Local.sExcel.Declare
+	v.Local.sExcelHeader.Declare
+	v.Local.sExcelColTitle.Declare
+	v.Local.sColDataTypes.Declare
+	v.Local.sColTitles.Declare
+	v.Local.sCols.Declare
+	v.Local.bDateSeqExists.Declare("Boolean",False)
+	v.Local.bPartExists.Declare("Boolean",False)
+	v.Local.bPriceExists.Declare("Boolean",False)
+	v.Local.bCostExists.Declare("Boolean",False)
+	v.Local.sRet.Declare
+	v.Local.sDateSeq.Declare
+	v.Local.sDateSeqYYYY-MM-DD.Declare
+	
+	f.Intrinsic.Control.If(v.Args.sFile,=,"")
+		gui.frmMain..ShowAlert("myAlert","Pin Price & Cost (6853)","Please select a file.")
+		gui.frmMain..UpdateAlertProperty("myAlert",v.Enum.AlertPropertyNames!SvgImage,v.Enum.Image!ERROR_BLACK)
+		f.Intrinsic.Control.ExitSub
+	f.Intrinsic.Control.EndIf
+	
+	v.Local.sFilename.Set(v.Args.sFile)
+	F.Intrinsic.File.IsFileLocked(v.Local.sFilename,v.Local.bIsLocked)
+	F.Intrinsic.Control.If(v.Local.bIsLocked)
+		gui.frmMain..ShowAlert("myAlert","Pin Price & Cost (6853)","File is locked by another process. Cannot continue.")
+		gui.frmMain..UpdateAlertProperty("myAlert",v.Enum.AlertPropertyNames!SvgImage,v.Enum.Image!ERROR_BLACK)
+		'Add Return Value to the calling subroutine
+		F.Intrinsic.Variable.AddRV("bSuccess",False)
+		F.Intrinsic.Control.ExitSub
+	F.Intrinsic.Control.EndIf
+	
+	F.Intrinsic.Control.If(v.DataTable.dtImport.Exists)
+		F.Data.DataTable.Close("dtImport")
+	F.Intrinsic.Control.EndIf
+	
+	F.Intrinsic.Control.If(v.DataTable.dtImportDistinctDate.Exists)
+		F.Data.DataTable.Close("dtImportDistinctDate")
+	F.Intrinsic.Control.EndIf
+	
+	F.Intrinsic.Control.If(v.DataTable.dtFinalTable.Exists)
+		F.Data.DataTable.Close("dtFinalTable")
+	F.Intrinsic.Control.EndIf
+	
+	F.Automation.MSExcel.ReadSpreadsheet(v.Local.sFilename,v.Local.sExcel)
+	F.Intrinsic.String.Replace(v.Local.sExcel,"&^&","$!$",v.Local.sExcel)
+	
+	F.Intrinsic.String.Split(v.Local.sExcel,"$!$",v.Local.sExcelHeader)
+	'Sequences of columns has to be exact (DATE, PART, PRICE, COST)
+	F.Intrinsic.String.Split(v.Local.sExcelHeader(0),"*!*",v.Local.sExcelColTitle)
+	F.Intrinsic.Control.If(v.Local.sExcelColTitle(0).UCase,=,"DATE")
+		v.Local.bDateSeqExists.Set(True)
+	F.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.If(v.Local.sExcelColTitle(1).UCase,=,"PART")
+		v.Local.bPartExists.Set(True)
+	F.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.If(v.Local.sExcelColTitle(2).UCase,=,"PRICE")
+		v.Local.bPriceExists.Set(True)
+	F.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.If(v.Local.sExcelColTitle(3).UCase,=,"COST")
+		v.Local.bCostExists.Set(True)
+	F.Intrinsic.Control.EndIf
+
+	'Stop processing if there is no DateSeq or Part or Price or Cost column in the excel file
+	F.Intrinsic.Control.If(v.Local.bDateSeqExists,=,False,"OR",v.Local.bPartExists,=,False,v.Local.bPriceExists,=,False,v.Local.bCostExists,=,False)
+		gui.frmMain..ShowAlert("myAlert","Pin Price & Cost (6853)","There is no 'DATE' or 'PART' or 'PRICE' or 'COST' column in the excel file. Please check the file.")
+		gui.frmMain..UpdateAlertProperty("myAlert",v.Enum.AlertPropertyNames!SvgImage,v.Enum.Image!ERROR_BLACK)
+		'Add Return Value to the calling subroutine
+		F.Intrinsic.Variable.AddRV("bSuccess",False)
+		F.Intrinsic.Control.ExitSub
+	F.Intrinsic.Control.EndIf
+
+	'Create DataTable from the extracted Excel File
+	v.Local.sColDataTypes.Set("String*!*String*!*String*!*String")
+	v.Local.sColTitles.Set("DATE_SEQ_S*!*PART_S*!*PRICE_S*!*COST_S")
+	F.Data.DataTable.CreateFromString("dtImport",V.Local.sExcel,v.Local.sColTitles,v.Local.sColDataTypes,"*!*","$!$",true)
+	'Remove the first row because it is the Column Header row from the Excel file
+	F.Data.DataTable.DeleteRow("dtImport",0)
+	
+	'Validate Data in the DataTable
+	'Validate Date
+	F.Data.DataTable.Select("dtImport","DATE_SEQ_S = ''",v.Local.sRet)
+	F.Intrinsic.Control.If(v.Local.sRet.Trim,<>,"***NORETURN***")
+		gui.frmMain..ShowAlert("myAlert","Pin Price & Cost (6853)","Cannot have empty date. Please check the file.")
+		gui.frmMain..UpdateAlertProperty("myAlert",v.Enum.AlertPropertyNames!SvgImage,v.Enum.Image!ERROR_BLACK)
+		'Add Return Value to the calling subroutine
+		F.Intrinsic.Variable.AddRV("bSuccess",False)
+		F.Intrinsic.Control.ExitSub
+	F.Intrinsic.Control.EndIf
+	
+	F.Data.DataView.Create("dtImport","dvImport")
+	F.Data.DataView.ToDataTableDistinct("dtImport","dvImport","dtImportDistinctDate","DATE_SEQ_S")
+	F.Intrinsic.Control.If(V.DataTable.dtImportDistinctDate.RowCount,>,1)
+		gui.frmMain..ShowAlert("myAlert","Pin Price & Cost (6853)","Cannot have multiple values of date. Please check the file.")
+		gui.frmMain..UpdateAlertProperty("myAlert",v.Enum.AlertPropertyNames!SvgImage,v.Enum.Image!ERROR_BLACK)
+		'Add Return Value to the calling subroutine
+		F.Intrinsic.Variable.AddRV("bSuccess",False)
+		F.Intrinsic.Control.ExitSub
+	F.Intrinsic.Control.EndIf
+	F.Data.DataTable.Close("dtImportDistinctDate")
+	F.Data.DataView.Close("dtImport","dvImport")
+	
+	'Validate Part
+	F.Data.DataTable.Select("dtImport","PART_S = ''",v.Local.sRet)
+	F.Intrinsic.Control.If(v.Local.sRet.Trim,<>,"***NORETURN***")
+		gui.frmMain..ShowAlert("myAlert","Pin Price & Cost (6853)","Cannot have blank Part. Please check the file.")
+		gui.frmMain..UpdateAlertProperty("myAlert",v.Enum.AlertPropertyNames!SvgImage,v.Enum.Image!ERROR_BLACK)
+		'Add Return Value to the calling subroutine
+		F.Intrinsic.Variable.AddRV("bSuccess",False)
+		F.Intrinsic.Control.ExitSub
+	F.Intrinsic.Control.EndIf
+	
+	'Validate Price
+	F.Data.DataTable.Select("dtImport","PRICE_S = ''",v.Local.sRet)
+	F.Intrinsic.Control.If(v.Local.sRet.Trim,<>,"***NORETURN***")
+		gui.frmMain..ShowAlert("myAlert","Pin Price & Cost (6853)","Cannot have blank Price. Please check the file.")
+		gui.frmMain..UpdateAlertProperty("myAlert",v.Enum.AlertPropertyNames!SvgImage,v.Enum.Image!ERROR_BLACK)
+		'Add Return Value to the calling subroutine
+		F.Intrinsic.Variable.AddRV("bSuccess",False)
+		F.Intrinsic.Control.ExitSub
+	F.Intrinsic.Control.EndIf
+	
+	'Validate Cost
+	F.Data.DataTable.Select("dtImport","COST_S = ''",v.Local.sRet)
+	F.Intrinsic.Control.If(v.Local.sRet.Trim,<>,"***NORETURN***")
+		gui.frmMain..ShowAlert("myAlert","Pin Price & Cost (6853)","Cannot have blank Cost. Please check the file.")
+		gui.frmMain..UpdateAlertProperty("myAlert",v.Enum.AlertPropertyNames!SvgImage,v.Enum.Image!ERROR_BLACK)
+		'Add Return Value to the calling subroutine
+		F.Intrinsic.Variable.AddRV("bSuccess",False)
+		F.Intrinsic.Control.ExitSub
+	F.Intrinsic.Control.EndIf
+	
+	'Pass all validation, need to set the correct data type format
+	F.Data.DataTable.AddExpressionColumn("dtImport","DATE_SEQ_D","Date","CONVERT([DATE_SEQ_S],'System.DateTime')")
+	f.Intrinsic.String.Format(v.DataTable.dtImport(0).DATE_SEQ_D!FieldVal,"YYYY-MM-DD",v.Local.sDateSeqYYYY-MM-DD)
+	
+	F.Data.DataTable.AddColumn("dtImport","DATE_SEQ","String",v.Local.sDateSeqYYYY-MM-DD)
+	F.Data.DataTable.AddExpressionColumn("dtImport","PART","String","[PART_S]")
+	F.Data.DataTable.AddExpressionColumn("dtImport","PRICE","Float","CONVERT([PRICE_S],'System.Double')")
+	F.Data.DataTable.AddExpressionColumn("dtImport","COST","Float","CONVERT([COST_S],'System.Double')")
+	
+	'Copy Column
+	F.Data.DataView.Create("dtImport","dvImport")
+	F.Data.DataView.ToDataTableDistinct("dtImport","dvImport","dtFinalTable","DATE_SEQ*!*PART*!*PRICE*!*COST")
+	
+	'Close the DataTable
+	F.Data.DataView.Close("dtImport","dvImport")
+	F.Data.DataTable.Close("dtImport")
+
+	'Save the DataTable to DB
+	F.Data.DataTable.SaveToDB("dtFinalTable","con","GAB_6853_PIN_PR_CS","DATE_SEQ*!*PART",256)
+	
+	v.Local.sDateSeq.Set(v.DataTable.dtFinalTable(0).DATE_SEQ!FieldValTrim)
+	F.Data.DataTable.Close("dtFinalTable")
+	
+	'Add Return Value
+	F.Intrinsic.Variable.AddRV("bSuccess",True,"sDATE_SEQ",v.Local.sDateSeq)
+	
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+	f.Intrinsic.UI.Msgbox(V.Local.sError)	
+	f.Intrinsic.Control.CallSub(frmMain_UnLoad)
+f.Intrinsic.Control.EndTry		
+Program.Sub.LoadExcelFile.End
+
+Program.Sub.gsgcPin_CellValueChanged.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	v.Local.sQuery.Declare
+	v.Local.sDateSeq.Declare
+	v.Local.sPart.Declare
+	v.Local.fPrice.Declare
+	v.Local.fCost.Declare
+	
+	f.Intrinsic.Control.SelectCase(v.Args.Column.UCase)
+		f.Intrinsic.Control.CaseAny("PRICE","COST")
+			gui.frmMain.gsgcPin.GetCellValueByColumnName("gvPin","DATE_SEQ",v.Args.RowIndex,v.Local.sDateSeq)
+			gui.frmMain.gsgcPin.GetCellValueByColumnName("gvPin","PART",v.Args.RowIndex,v.Local.sPart)
+			gui.frmMain.gsgcPin.GetCellValueByColumnName("gvPin","PRICE",v.Args.RowIndex,v.Local.fPrice)
+			gui.frmMain.gsgcPin.GetCellValueByColumnName("gvPin","COST",v.Args.RowIndex,v.Local.fCost)
+			f.Intrinsic.String.Build("update GAB_6853_PIN_PR_CS set PRICE = {0}, COST = {1} where DATE_SEQ = '{2}' and PART = '{3}';",v.Local.fPrice,v.Local.fCost,v.Local.sDateSeq,v.Local.sPart,v.Local.sQuery)
+			f.ODBC.Connection!con.Execute(v.Local.sQuery)		
+	f.Intrinsic.Control.EndSelect
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+	f.Intrinsic.UI.Msgbox(V.Local.sError)	
+	f.Intrinsic.Control.CallSub(frmMain_UnLoad)
+f.Intrinsic.Control.EndTry	
+Program.Sub.gsgcPin_CellValueChanged.End
+
+Program.Sub.Comments.Start
+${$5$}$20.1.8249.18654$}$1
+${$6$}$tdjohan$}$20220823093327578$}$8rAQhOSvlohpQhMDm1j544LwmwXnRbkhGYxm77CYSIlmnjFB7zCmO5s1qhRtRsMH+YD1sPpYxgE=
+Program.Sub.Comments.End
