@@ -1,0 +1,105 @@
+﻿Program.Sub.Preflight.Start
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+Function.Intrinsic.UI.UsePixels ' Allows you to use Pixels instead of Twips throughout
+
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	v.Local.sSQL.Declare
+	
+	f.ODBC.Connection!con.OpenConnection(v.Ambient.PDSN,v.Ambient.PUser,v.Ambient.PPass)
+	
+'	F.Intrinsic.Control.CallSub(CheckCustomTables)
+	F.Intrinsic.Control.CallSub(ExtractPinPriceCost)
+	F.Intrinsic.Control.CallSub(UnLoad)
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.String.Left(v.Ambient.ErrorDescription.Trim,850,v.Local.sError)
+	f.Intrinsic.String.Build("Insert into GAB_6853_ERROR (DateTimeOccur,Description) values (Now(),'{0} Sub: {1} {2}')",v.Ambient.ErrorNumber,v.Ambient.CurrentSubroutine,v.Local.sError.PSQLFriendly,v.Local.sSQL)
+	f.ODBC.Connection!con.Execute(v.Local.sSQL)	
+	f.Intrinsic.Control.CallSub(UnLoad)
+f.Intrinsic.Control.EndTry
+Program.Sub.Main.End
+
+Program.Sub.UnLoad.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	v.Local.sSQL.Declare
+	
+	f.Intrinsic.Control.If(v.DataTable.dtPin.Exists)
+		f.Data.DataTable.Close("dtPin")
+	f.Intrinsic.Control.EndIf
+	
+	f.Intrinsic.Control.If(V.ODBC.con.State,=,1)
+		f.ODBC.Connection!con.close
+	f.Intrinsic.Control.EndIf
+		
+	f.Intrinsic.Control.End
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.Control.End
+f.Intrinsic.Control.EndTry
+Program.Sub.UnLoad.End
+
+'Program.Sub.CheckCustomTables.Start
+'f.Intrinsic.Control.Try
+'	v.Local.sError.Declare
+'	V.Local.bExist.Declare
+'	v.Local.sSQL.Declare
+'	
+'	F.ODBC.Connection!con.TableExists("GAB_6853_PIN_PR_CS",v.Local.bExist)
+'	F.Intrinsic.Control.If(v.Local.bExist.Not)
+'		F.ODBC.Connection!con.Execute("CREATE TABLE GAB_6853_PIN_PR_CS(DATE_SEQ CHAR(10) NOT NULL, PART CHAR(20) NOT NULL, PRICE NUMERIC(18,6) NOT NULL DEFAULT 0, COST NUMERIC(18,6) NOT NULL DEFAULT 0);")
+'		F.ODBC.Connection!con.Execute("CREATE INDEX GAB_6853_PIN_PR_CS00 ON GAB_6853_PIN_PR_CS ( DATE_SEQ );")
+'		F.ODBC.Connection!con.Execute("CREATE INDEX GAB_6853_PIN_PR_CS01 ON GAB_6853_PIN_PR_CS ( PART );")
+'		F.ODBC.Connection!con.Execute("CREATE INDEX GAB_6853_PIN_PR_CS02 ON GAB_6853_PIN_PR_CS ( DATE_SEQ, PART );")
+'	F.Intrinsic.Control.EndIf
+'	
+'	F.ODBC.Connection!con.TableExists("GAB_6853_ERROR",v.Local.bExist)
+'	F.Intrinsic.Control.If(v.Local.bExist.Not)
+'		F.ODBC.Connection!con.Execute("CREATE TABLE GAB_6853_ERROR (DateTimeOccur DATETIME,Description VARCHAR(1000) );")
+'	F.Intrinsic.Control.EndIf
+'	
+'f.Intrinsic.Control.Catch
+'	f.Intrinsic.String.Left(v.Ambient.ErrorDescription.Trim,850,v.Local.sError)
+'	f.Intrinsic.String.Build("Insert into GAB_6853_ERROR (DateTimeOccur,Description) values (Now(),'{0} Sub: {1} {2}')",v.Ambient.ErrorNumber,v.Ambient.CurrentSubroutine,v.Local.sError.PSQLFriendly,v.Local.sSQL)
+'	f.ODBC.Connection!con.Execute(v.Local.sSQL)	
+'	f.Intrinsic.Control.CallSub(UnLoad)
+'f.Intrinsic.Control.EndTry
+'Program.Sub.CheckCustomTables.End
+
+Program.Sub.ExtractPinPriceCost.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	v.Local.sSQL.Declare
+	v.Local.dDateSeq.Declare
+	v.Local.sRet.Declare
+	
+	F.Intrinsic.Control.If(v.DataTable.dtPin.Exists)
+		F.Data.DataTable.Close("dtPin")
+	F.Intrinsic.Control.EndIf
+	
+	v.Local.dDateSeq.Set(v.Ambient.Date)
+	F.Intrinsic.String.Build("select TOP 1 'Y' as DateExists from GAB_6853_PIN_PR_CS where DATE_SEQ = '{0}';",v.Local.dDateSeq.PervasiveDate,v.Local.sSQL)
+	F.ODBC.Connection!con.ExecuteAndReturn(v.Local.sSQL,v.Local.sRet)
+	F.Intrinsic.Control.If(v.Local.sRet.Trim,<>,"Y")
+		F.Intrinsic.String.Build("select '{0}' AS DATE_SEQ, PART, COALESCE(AMT_PRICE,0) AS PRICE, COALESCE(AMT_COST,0) AS COST from INVENTORY_MSTR where PRODUCT_LINE BETWEEN 'PA' and 'PZ';",v.Local.dDateSeq.PervasiveDate,v.Local.sSQL)
+		F.Data.DataTable.CreateFromSQL("dtPin","con",v.Local.sSQL)
+		F.Intrinsic.Control.If(v.DataTable.dtPin.Exists)
+			F.Data.DataTable.SaveToDB("dtPin","con","GAB_6853_PIN_PR_CS","DATE_SEQ",128)
+		F.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.EndIf
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.String.Left(v.Ambient.ErrorDescription.Trim,850,v.Local.sError)
+	f.Intrinsic.String.Build("Insert into GAB_6853_ERROR (DateTimeOccur,Description) values (Now(),'{0} Sub: {1} {2}')",v.Ambient.ErrorNumber,v.Ambient.CurrentSubroutine,v.Local.sError.PSQLFriendly,v.Local.sSQL)
+	f.ODBC.Connection!con.Execute(v.Local.sSQL)	
+	f.Intrinsic.Control.CallSub(UnLoad)
+f.Intrinsic.Control.EndTry	
+Program.Sub.ExtractPinPriceCost.End
+
+Program.Sub.Comments.Start
+${$5$}$20.1.8249.18654$}$1
+${$6$}$tdjohan$}$20220823084509172$}$8rAQhOSvlohpQhMDm1j544LwmwXnRbkhGYxm77CYSInBUD0+XYN6C71BZqXCsjMCPvOIRTb7T0E=
+Program.Sub.Comments.End
