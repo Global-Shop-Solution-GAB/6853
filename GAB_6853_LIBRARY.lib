@@ -1,0 +1,91 @@
+﻿Program.Sub.Preflight.Start
+Program.Sub.Preflight.End
+
+Program.Sub.FormatBulk.Start
+	f.Intrinsic.Control.Try
+		v.Local..BulkDeclareString(sError,sColumns,sHold)
+		v.Local..BulkDeclareLong(iCnt)
+
+		f.Intrinsic.String.Split(v.Args.sInputColumns,",",v.Local.sColumns)
+		f.Intrinsic.Control.For(v.Local.iCnt,0,v.Local.sColumns.UBound,1)
+			F.Intrinsic.Control.SelectCase(v.Args.sProperty)
+				F.Intrinsic.Control.Case("MinWidth")
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"MinWidth",v.Args.sWidth)
+				F.Intrinsic.Control.Case("MaxWidth")
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"MaxWidth",v.Args.sWidth)
+				F.Intrinsic.Control.Case("Width")
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"Width",v.Args.sWidth)
+				F.Intrinsic.Control.Case("Invisible")
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"Visible",False)
+				F.Intrinsic.Control.Case("Visible")
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"Visible",True)
+				F.Intrinsic.Control.Case("VisibleIndex")
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"VisibleIndex",v.Local.iCnt)
+				F.Intrinsic.Control.Case("Caption")
+					f.Intrinsic.String.Split(v.Local.sColumns(v.Local.iCnt),"@!@",v.Local.sHold)
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sHold(0),"Caption",v.Local.sHold(1))
+				F.Intrinsic.Control.Case("HideCaption")
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"Caption",False)
+				F.Intrinsic.Control.Case("CellAllign_Far")
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"CellHAlignment","Far")
+				F.Intrinsic.Control.Case("CellAllign_Near")
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"CellHAlignment","Near")
+				F.Intrinsic.Control.Case("CellAllign_Center")
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"CellHAlignment","Center")
+				F.Intrinsic.Control.Case("HeaderAllign_Far")
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"HeaderHAlignment","Far")
+				F.Intrinsic.Control.Case("HeaderAllign_Center")
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"HeaderHAlignment","Center")
+				F.Intrinsic.Control.Case("HeaderFontBold")	
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"HeaderFontBold",True)
+				F.Intrinsic.Control.Case("Decimal_2")	
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"DisplayCustomNumeric","###,###,###,##0.00")
+				F.Intrinsic.Control.Case("Decimal_4")	
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"DisplayCustomNumeric","###,###,###,##0.0000")
+				F.Intrinsic.Control.Case("Decimal_6")	
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"DisplayCustomNumeric","###,###,###,##0.000000")
+				F.Intrinsic.Control.Case("Integer")	
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"DisplayCustomNumeric","###,###,###,##0")
+				f.Intrinsic.Control.Case("For_CellValue_Changed")
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"AllowEdit",True)	
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"ReadOnly",False)
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"CellBackColor","LightYellow")
+				f.Intrinsic.Control.Case("For_RowCell_Click")
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"AllowEdit",False)	
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"ReadOnly",True)
+				f.Intrinsic.Control.Case("FixedColumn_Left")
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"Fixed","Left")
+				f.Intrinsic.Control.Case("FixedColumn_Right")
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"Fixed","Right")
+				f.Intrinsic.Control.Case("FixedColumn_Right")
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"Fixed","Right")
+				f.Intrinsic.Control.Case("HeaderWordWrap")
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"HeaderWordWrap","Wrap")	
+	'				gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"CellFontBold",True)
+				f.Intrinsic.Control.Case("EditorButton")
+					f.Intrinsic.String.Split(v.Local.sColumns(v.Local.iCnt),"@!@",v.Local.sHold)
+					gui.[v.Args.FORM].[v.Args.GS].ColumnEdit(v.Args.GV,v.Local.sHold(0),"EditorButton",v.Local.sHold(1))	
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sHold(0),"ShowCaption",False)	
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sHold(0),"AllowEdit",False)	
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sHold(0),"CellBackColor",v.Color.LtGrey)	
+				f.Intrinsic.Control.Case("IconBrowse")
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"Icon","Browse")
+				f.Intrinsic.Control.Case("Clickable")
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"CellForeColor","Blue")	
+				f.Intrinsic.Control.Case("DisplayCustomDateTime")
+					gui.[v.Args.FORM].[v.Args.GS].SetColumnProperty(v.Args.GV,v.Local.sColumns(v.Local.iCnt),"DisplayCustomDateTime",V.Args.sDateTimeFormat)	
+				F.Intrinsic.Control.EndSelect		
+		f.Intrinsic.Control.Next(v.Local.iCnt)
+
+	f.Intrinsic.Control.Catch
+		f.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+		f.Intrinsic.UI.Msgbox(V.Local.sError)	
+		f.Intrinsic.Control.CallSub(v.Args.FORM_UNLOAD)
+	f.Intrinsic.Control.EndTry
+Program.Sub.FormatBulk.End
+
+Program.Sub.Comments.Start
+${$0$}$$}$$}$12:00:00 AM$}$False
+${$5$}$2.0.0.0$}$2
+${$6$}$tdjohan$}$20220823091230353$}$8rAQhOSvlohpQhMDm1j544LwmwXnRbkhGYxm77CYSIlmnjFB7zCmOyjub8L0+X8IYrL8rNFoXD4=
+Program.Sub.Comments.End
