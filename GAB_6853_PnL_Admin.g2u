@@ -1,0 +1,630 @@
+﻿Program.Sub.ScreenSU.Start
+Gui.frmMain..Create(BaseForm)
+Gui.frmMain..Caption("Profit & Loss Administration (6853)")
+Gui.frmMain..Size(765,545)
+Gui.frmMain..MinX(0)
+Gui.frmMain..MinY(0)
+Gui.frmMain..Position(0,0)
+Gui.frmMain..AlwaysOnTop(False)
+Gui.frmMain..FontName("Tahoma")
+Gui.frmMain..FontSize(8.25)
+Gui.frmMain..ControlBox(True)
+Gui.frmMain..MaxButton(False)
+Gui.frmMain..MinButton(True)
+Gui.frmMain..MousePointer(0)
+Gui.frmMain..Moveable(True)
+Gui.frmMain..Sizeable(False)
+Gui.frmMain..ShowInTaskBar(True)
+Gui.frmMain..TitleBar(True)
+Gui.frmMain..Event(UnLoad,frmMain_UnLoad)
+Gui.frmMain.frameCategory.Create(Frame)
+Gui.frmMain.frameCategory.Enabled(True)
+Gui.frmMain.frameCategory.Visible(True)
+Gui.frmMain.frameCategory.Zorder(0)
+Gui.frmMain.frameCategory.Size(422,89)
+Gui.frmMain.frameCategory.Position(329,13)
+Gui.frmMain.frameCategory.Caption("GL Account Assignment")
+Gui.frmMain.frameCategory.FontName("Tahoma")
+Gui.frmMain.frameCategory.FontSize(8.25)
+Gui.frmMain.frameCategory.Anchor(13)
+Gui.frmMain.frameCategory.BorderStyle(3)
+Gui.frmMain.cmdGLAcct.Create(Button)
+Gui.frmMain.cmdGLAcct.Enabled(True)
+Gui.frmMain.cmdGLAcct.Visible(True)
+Gui.frmMain.cmdGLAcct.Zorder(0)
+Gui.frmMain.cmdGLAcct.Size(24,23)
+Gui.frmMain.cmdGLAcct.Position(367,34)
+Gui.frmMain.cmdGLAcct.Caption("^")
+Gui.frmMain.cmdGLAcct.FontName("Tahoma")
+Gui.frmMain.cmdGLAcct.FontSize(8.25)
+Gui.frmMain.cmdGLAcct.Parent("frameCategory")
+Gui.frmMain.cmdGLAcct.Event(Click,cmdGLAcct_Click)
+Gui.frmMain.txtCategory.Create(TextBox,"",True,211,20,0,69,53,False,0,"Tahoma",8.25,,1)
+Gui.frmMain.txtCategory.Parent("frameCategory")
+Gui.frmMain.txtCategory.MaxLength(30)
+Gui.frmMain.lbl1.Create(Label,"Category",True,45,13,0,19,56,True,0,"Tahoma",8.25,,0,0)
+Gui.frmMain.lbl1.BorderStyle(0)
+Gui.frmMain.lbl1.Parent("frameCategory")
+Gui.frmMain.lbl2.Create(Label,"GL Accounts",True,59,13,0,298,39,True,0,"Tahoma",8.25,,0,0)
+Gui.frmMain.lbl2.BorderStyle(0)
+Gui.frmMain.lbl2.Parent("frameCategory")
+Gui.frmMain.lbl5.Create(Label,"Product",True,37,13,0,25,28,True,0,"Tahoma",8.25,,0,0)
+Gui.frmMain.lbl5.BorderStyle(0)
+Gui.frmMain.lbl5.Parent("frameCategory")
+Gui.frmMain.txtProduct.Create(TextBox,"",True,211,20,0,69,25,False,0,"Tahoma",8.25,,1)
+Gui.frmMain.txtProduct.MaxLength(30)
+Gui.frmMain.txtProduct.Parent("frameCategory")
+Gui.frmMain.lblCategory.Create(Label,"Category",True,52,13,0,18,119,True,0,"Tahoma",8.25,,0,0)
+Gui.frmMain.lblCategory.BorderStyle(0)
+Gui.frmMain.lblCategory.FontStyle(True,False,False,False,False)
+Gui.frmMain.gsgcGLAccts.Create(GsGridControl)
+Gui.frmMain.gsgcGLAccts.Enabled(True)
+Gui.frmMain.gsgcGLAccts.Visible(True)
+Gui.frmMain.gsgcGLAccts.Zorder(0)
+Gui.frmMain.gsgcGLAccts.Size(424,357)
+Gui.frmMain.gsgcGLAccts.Position(328,143)
+Gui.frmMain.gsgcGLAccts.Event(RowCellClick,gsgcGLAccts_RowCellClick)
+Gui.frmMain.lblGLAccts.Create(Label,"GL Accounts",True,69,13,0,334,120,True,0,"Tahoma",8.25,,0,0)
+Gui.frmMain.lblGLAccts.BorderStyle(0)
+Gui.frmMain.lblGLAccts.Anchor(15)
+Gui.frmMain.lblGLAccts.FontStyle(True,False,False,False,False)
+Gui.frmMain.gsgcCategory.Create(GsGridControl)
+Gui.frmMain.gsgcCategory.Enabled(True)
+Gui.frmMain.gsgcCategory.Visible(True)
+Gui.frmMain.gsgcCategory.Zorder(0)
+Gui.frmMain.gsgcCategory.Size(301,357)
+Gui.frmMain.gsgcCategory.Position(16,143)
+Gui.frmMain.gsgcCategory.Event(RowClick,gsgcCategory_RowClick)
+Gui.frmMain.frameGABreakdown.Create(Frame)
+Gui.frmMain.frameGABreakdown.Enabled(True)
+Gui.frmMain.frameGABreakdown.Visible(True)
+Gui.frmMain.frameGABreakdown.Zorder(0)
+Gui.frmMain.frameGABreakdown.Size(307,89)
+Gui.frmMain.frameGABreakdown.Position(14,13)
+Gui.frmMain.frameGABreakdown.Caption("G&&A Breakdown")
+Gui.frmMain.frameGABreakdown.FontName("Tahoma")
+Gui.frmMain.frameGABreakdown.FontSize(8.25)
+Gui.frmMain.frameGABreakdown.BorderStyle(3)
+Gui.frmMain.txtSocketPct.Create(TextBox,"",True,45,20,0,119,29,True,0,"Tahoma",8.25,,1)
+Gui.frmMain.txtSocketPct.Parent("frameGABreakdown")
+Gui.frmMain.txtSocketPct.Event(LostFocus,txtSocketPct_LostFocus)
+Gui.frmMain.txtSocketPct.MaxLength(3)
+Gui.frmMain.txtSocketPct.NumericOnly(2)
+Gui.frmMain.txtPinPct.Create(TextBox,"",True,45,20,0,119,53,False,0,"Tahoma",8.25,,1)
+Gui.frmMain.txtPinPct.Parent("frameGABreakdown")
+Gui.frmMain.txtPinPct.MaxLength(3)
+Gui.frmMain.txtPinPct.NumericOnly(2)
+Gui.frmMain.lbl3.Create(Label,"Socket",True,32,13,0,81,33,True,0,"Tahoma",8.25,,0,0)
+Gui.frmMain.lbl3.BorderStyle(0)
+Gui.frmMain.lbl3.Parent("frameGABreakdown")
+Gui.frmMain.lbl4.Create(Label,"Pin",True,14,13,0,100,57,True,0,"Tahoma",8.25,,0,0)
+Gui.frmMain.lbl4.BorderStyle(0)
+Gui.frmMain.lbl4.Parent("frameGABreakdown")
+Gui.frmMain.cmdUpdatePct.Create(Button)
+Gui.frmMain.cmdUpdatePct.Enabled(True)
+Gui.frmMain.cmdUpdatePct.Visible(True)
+Gui.frmMain.cmdUpdatePct.Zorder(0)
+Gui.frmMain.cmdUpdatePct.Size(60,23)
+Gui.frmMain.cmdUpdatePct.Position(192,37)
+Gui.frmMain.cmdUpdatePct.Caption("Update")
+Gui.frmMain.cmdUpdatePct.FontName("Tahoma")
+Gui.frmMain.cmdUpdatePct.FontSize(8.25)
+Gui.frmMain.cmdUpdatePct.Parent("frameGABreakdown")
+Gui.frmMain.cmdUpdatePct.Event(Click,cmdUpdatePct_Click)
+Gui.frmMain.lkupGLAccts.Create(Lookup)
+Gui.frmMain.lkupGLAccts.Enabled(True)
+Gui.frmMain.lkupGLAccts.PopulateMode(4)
+Gui.frmMain.lkupGLAccts.Title("GL Accounts")
+Gui.frmMain.lkupGLAccts.StringBasis("")
+Gui.frmMain.lkupGLAccts.FileBasis("")
+Gui.frmMain.lkupGLAccts.ColumnDelim("")
+Gui.frmMain.lkupGLAccts.RowDelim("")
+Gui.frmMain.lkupGLAccts.PreferredStyle(0)
+Gui.frmMain.lkupGLAccts.AssociatedControl("cmdGLAcct")
+Gui.frmMain.lkupGLAccts.Multiselect(True)
+Gui.frmMain.lkupGLAccts.Event(SelectionMade,lkupGLAccts_SelectionMade)
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+	Program.External.Include.Library("GAB_6853_LIBRARY.lib")
+	V.Global.iSelectedRow.Declare("Long")
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+Function.Intrinsic.UI.UsePixels ' Allows you to use Pixels instead of Twips throughout
+
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	
+	f.ODBC.Connection!con.OpenConnection(v.Ambient.PDSN,v.Ambient.PUser,v.Ambient.PPass)
+	
+	'Prevent the form from using DarkTheme
+	f.Intrinsic.Task.SetEnvironmentVariable("USEDARKTHEME",False)
+	gui.frmMain..ApplyTheme
+		
+	f.Intrinsic.Control.CallSub(HideControls)
+	
+	gui.frmMain.frameGABreakdown.InvokeWait("Please wait... Loading...","Profit & Loss Administration (6853)")
+	
+	gui.frmMain..Show
+	
+	F.Intrinsic.Control.CallSub(CheckCustomTables)
+	F.Intrinsic.Control.CallSub(PopulateLookupGLAccts)
+	F.Intrinsic.Control.CallSub(GenerateCategory)
+	F.Intrinsic.Control.CallSub(GetGAPctBreakdown)
+	
+	gui.frmMain.frameGABreakdown.HideWait
+	
+	f.Intrinsic.Control.CallSub(ShowControls)
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+	f.Intrinsic.UI.Msgbox(V.Local.sError)	
+	f.Intrinsic.Control.CallSub(frmMain_UnLoad)
+f.Intrinsic.Control.EndTry
+Program.Sub.Main.End
+
+Program.Sub.frmMain_UnLoad.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	
+	f.Intrinsic.Control.If(v.DataTable.dtCategory.Exists)
+		f.Data.DataTable.Close("dtCategory")
+	f.Intrinsic.Control.EndIf
+	
+	f.Intrinsic.Control.If(v.DataTable.dtCatGLAccounts.Exists)
+		f.Data.DataTable.Close("dtCatGLAccounts")
+	f.Intrinsic.Control.EndIf
+	
+	f.Intrinsic.Control.If(v.DataTable.dtGLAccts.Exists)
+		f.Data.DataTable.Close("dtGLAccts")
+	f.Intrinsic.Control.EndIf
+	
+	f.Intrinsic.Control.If(V.ODBC.con.State,=,1)
+		f.ODBC.Connection!con.close
+	f.Intrinsic.Control.EndIf
+		
+	f.Intrinsic.Control.End
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+	f.Intrinsic.UI.Msgbox(V.Local.sError)	
+	f.Intrinsic.Control.End
+f.Intrinsic.Control.EndTry
+Program.Sub.frmMain_UnLoad.End
+
+Program.Sub.HideControls.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	
+	gui.frmMain.frameCategory.Visible(False)
+	gui.frmMain.lblCategory.Visible(False)
+	gui.frmMain.gsgcCategory.Visible(False)
+	gui.frmMain.lblGLAccts.Visible(False)
+	gui.frmMain.gsgcGLAccts.Visible(False)
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+	f.Intrinsic.UI.Msgbox(V.Local.sError)	
+	f.Intrinsic.Control.CallSub(frmMain_UnLoad)
+f.Intrinsic.Control.EndTry	
+Program.Sub.HideControls.End
+
+Program.Sub.ShowControls.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	
+	gui.frmMain.frameCategory.Visible(True)
+	gui.frmMain.lblCategory.Visible(True)
+	gui.frmMain.gsgcCategory.Visible(True)
+	gui.frmMain.lblGLAccts.Visible(True)
+	gui.frmMain.gsgcGLAccts.Visible(True)
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+	f.Intrinsic.UI.Msgbox(V.Local.sError)	
+	f.Intrinsic.Control.CallSub(frmMain_UnLoad)
+f.Intrinsic.Control.EndTry	
+Program.Sub.ShowControls.End
+
+Program.Sub.CheckCustomTables.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	V.Local.bExist.Declare
+	
+	F.ODBC.Connection!con.TableExists("GAB_6853_CAT_ACCTS",v.Local.bExist)
+	F.Intrinsic.Control.If(v.Local.bExist.Not)
+		F.ODBC.Connection!con.Execute("CREATE TABLE GAB_6853_CAT_ACCTS(PRODUCT VARCHAR(20) NOT NULL, CATEGORY VARCHAR(30) NOT NULL, GL_ACCOUNT CHAR(15) NOT NULL);")
+		F.ODBC.Connection!con.Execute("CREATE INDEX GAB_6853_CAT_ACCTS00 ON GAB_6853_CAT_ACCTS ( PRODUCT, CATEGORY );")
+		F.ODBC.Connection!con.Execute("CREATE INDEX GAB_6853_CAT_ACCTS01 ON GAB_6853_CAT_ACCTS ( PRODUCT );")
+		F.ODBC.Connection!con.Execute("CREATE INDEX GAB_6853_CAT_ACCTS02 ON GAB_6853_CAT_ACCTS ( CATEGORY );")
+	F.Intrinsic.Control.EndIf
+	
+	F.ODBC.Connection!con.TableExists("GAB_6853_GA_PCT",v.Local.bExist)
+	F.Intrinsic.Control.If(v.Local.bExist.Not)
+		F.ODBC.Connection!con.Execute("CREATE TABLE GAB_6853_GA_PCT(TC NUMERIC(3,0) NOT NULL, SOCKET NUMERIC(3,0) NOT NULL, PIN NUMERIC(3,0) NOT NULL);")
+	F.Intrinsic.Control.EndIf
+	
+	F.ODBC.Connection!con.TableExists("GAB_6853_PIN_PR_CS",v.Local.bExist)
+	F.Intrinsic.Control.If(v.Local.bExist.Not)
+		F.ODBC.Connection!con.Execute("CREATE TABLE GAB_6853_PIN_PR_CS(DATE_SEQ CHAR(10) NOT NULL, PART CHAR(20) NOT NULL, PRICE NUMERIC(18,6) NOT NULL DEFAULT 0, COST NUMERIC(18,6) NOT NULL DEFAULT 0);")
+		F.ODBC.Connection!con.Execute("CREATE INDEX GAB_6853_PIN_PR_CS00 ON GAB_6853_PIN_PR_CS ( DATE_SEQ );")
+		F.ODBC.Connection!con.Execute("CREATE INDEX GAB_6853_PIN_PR_CS01 ON GAB_6853_PIN_PR_CS ( PART );")
+		F.ODBC.Connection!con.Execute("CREATE INDEX GAB_6853_PIN_PR_CS02 ON GAB_6853_PIN_PR_CS ( DATE_SEQ, PART );")
+	F.Intrinsic.Control.EndIf
+	
+	F.ODBC.Connection!con.TableExists("GAB_6853_ERROR",v.Local.bExist)
+	F.Intrinsic.Control.If(v.Local.bExist.Not)
+		F.ODBC.Connection!con.Execute("CREATE TABLE GAB_6853_ERROR (DateTimeOccur DATETIME,Description VARCHAR(1000) );")
+	F.Intrinsic.Control.EndIf
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+	f.Intrinsic.UI.Msgbox(V.Local.sError)	
+	f.Intrinsic.Control.CallSub(frmMain_UnLoad)
+f.Intrinsic.Control.EndTry	
+Program.Sub.CheckCustomTables.End
+
+Program.Sub.PopulateLookupGLAccts.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	v.Local.sQuery.Declare
+	
+	f.Intrinsic.Control.If(V.DataTable.dtGLAccts.Exists,=,False)
+		v.Local.sQuery.Set("select GL_ACCOUNT, DESCR from V_GL_MASTER where INACTIVE_DATE = '1900-01-01' order by GL_ACCOUNT;")
+		f.Data.DataTable.CreateFromSQL("dtGLAccts","con",v.Local.sQuery,True)
+		
+		gui.frmMain.lkupGLAccts.ColumnNames()
+		gui.frmMain.lkupGLAccts.DataTableBasis("dtGLAccts")
+		gui.frmMain.lkupGLAccts.Initialize
+	f.Intrinsic.Control.EndIf
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+	f.Intrinsic.UI.Msgbox(V.Local.sError)	
+	f.Intrinsic.Control.CallSub(frmMain_UnLoad)
+f.Intrinsic.Control.EndTry	
+Program.Sub.PopulateLookupGLAccts.End
+
+Program.Sub.cmdGLAcct_Click.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	
+	f.Intrinsic.Control.If(V.Screen.frmMain!txtCategory.Text.Trim,<>,"")
+		f.Intrinsic.Control.CallSub(PopulateLookupGLAccts)
+		
+		gui.frmMain.cmdGLAcct.Enabled(False)
+		gui.frmMain.lkupGLAccts.Show
+		gui.frmMain.cmdGLAcct.Enabled(True)
+	f.Intrinsic.Control.Else
+		gui.frmMain..ShowAlert("myAlert","Profit & Loss Administration (6853)","Please select or enter Category first.")
+		gui.frmMain..UpdateAlertProperty("myAlert",v.Enum.AlertPropertyNames!SvgImage,v.Enum.Image!ERROR_BLACK)
+	f.Intrinsic.Control.EndIf
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+	f.Intrinsic.UI.Msgbox(V.Local.sError)	
+	f.Intrinsic.Control.CallSub(frmMain_UnLoad)
+f.Intrinsic.Control.EndTry	
+Program.Sub.cmdGLAcct_Click.End
+
+Program.Sub.lkupGLAccts_SelectionMade.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	v.Local.sProduct.Declare
+	v.Local.sCategory.Declare
+	v.Local.sQuery.Declare
+	
+	'Create DataView & DataTable
+	f.Data.DataView.Create("lkupGLAccts_Result","dvGLAccts_Result")
+	f.Data.DataView.ToDataTable("lkupGLAccts_Result","dvGLAccts_Result","dtGLAccts_Result")
+	f.Data.DataTable.AddColumn("dtGLAccts_Result","PRODUCT","String",v.Screen.frmMain!txtProduct.Text.Trim)
+	f.Data.DataTable.AddColumn("dtGLAccts_Result","CATEGORY","String",v.Screen.frmMain!txtCategory.Text.Trim)
+	f.Data.DataTable.AddColumn("dtGLAccts_Result","AcctExists","Boolean",False)
+	
+	'Close the DataView
+	f.Data.DataView.Close("lkupGLAccts_Result","dvGLAccts_Result")
+	
+	'Select Existing GL Accounts for the selected Category and create Dictionary from it
+	f.Intrinsic.String.Build("select GL_ACCOUNT, CONVERT(1,SQL_BIT) AS AcctExists from GAB_6853_CAT_ACCTS where CATEGORY = '{0}';",v.Screen.frmMain!txtCategory.Text.Trim,v.Local.sQuery)
+	f.Data.Dictionary.CreateFromSQL("dicCurrGLAccts","con",v.Local.sQuery)
+	f.Data.Dictionary.SetDefaultReturn("dicCurrGLAccts",False)
+	f.Data.DataTable.FillFromDictionary("dtGLAccts_Result","dicCurrGLAccts","GL_ACCOUNT","AcctExists")
+	
+	'Close the Dictionary
+	f.Data.Dictionary.Close("dicCurrGLAccts")
+	
+	'Create DataView & DataTable
+	f.Data.DataView.Create("dtGLAccts_Result","dvGLAccts_Result",22,"AcctExists = False","")
+	f.Data.DataView.ToDataTable("dtGLAccts_Result","dvGLAccts_Result","dtGLAcctsToSave")
+	
+	'Close DataView
+	f.Data.DataView.Close("dtGLAccts_Result","dvGLAccts_Result")
+
+	'Remove unnecessary columns
+	f.Data.DataTable.RemoveColumn("dtGLAcctsToSave","AcctExists")
+	f.Data.DataTable.RemoveColumn("dtGLAcctsToSave","DESCR")
+	
+	'Save the DataTable to Table in database
+	f.Data.DataTable.SaveToDB("dtGLAcctsToSave","con","GAB_6853_CAT_ACCTS","",128)
+	
+	'Refresh the Category GL Accounts gridview
+	F.Intrinsic.Control.If(V.DataTable.dtCategory.RowCount,>,0)
+		Gui.frmMain.gsgcCategory.SelectRow("gvCategory",v.Global.iSelectedRow)
+		
+		Gui.frmMain.gsgcCategory.GetCellValueByColumnName("gvCategory","Product",v.Global.iSelectedRow,v.Local.sProduct)
+		Gui.frmMain.gsgcCategory.GetCellValueByColumnName("gvCategory","Category",v.Global.iSelectedRow,v.Local.sCategory)
+		Gui.frmMain.txtProduct.Text(v.Local.sProduct)
+		Gui.frmMain.txtCategory.Text(v.Local.sCategory)
+	
+		F.Intrinsic.Control.If(V.DataTable.dtCatGLAccounts.Exists,=,True)
+			F.Data.DataTable.Close("dtCatGLAccounts")
+		F.Intrinsic.Control.EndIf
+		
+		'Select the GL Accounts for the selected Category
+		f.Intrinsic.String.Build("select A.GL_ACCOUNT, B.DESCR from GAB_6853_CAT_ACCTS A LEFT JOIN GL_MASTER B ON A.GL_ACCOUNT = B.GL_ACCOUNT WHERE A.CATEGORY = '{0}' and A.PRODUCT = '{1}';",v.Local.sCategory.Trim,v.Local.sProduct.Trim,v.Local.sQuery)
+		f.Data.DataTable.CreateFromSQL("dtCatGLAccounts","con",v.Local.sQuery,True)
+		F.Data.DataTable.AddColumn("dtCatGLAccounts","Delete","Long",1)
+		
+		'Bind DataTable to GridView
+		Gui.frmMain.gsgcGLAccts.AddGridviewFromDatatable("gvCatGLAccounts","dtCatGLAccounts")
+		
+		f.Intrinsic.Control.CallSub(FormatCatGLAcctsGV)
+				
+		'Set the main view of the GridView
+		Gui.frmMain.gsgcGLAccts.MainView("gvCatGLAccounts")
+	F.Intrinsic.Control.EndIf
+	
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+	f.Intrinsic.UI.Msgbox(V.Local.sError)	
+	f.Intrinsic.Control.CallSub(frmMain_UnLoad)
+f.Intrinsic.Control.EndTry	
+Program.Sub.lkupGLAccts_SelectionMade.End
+
+Program.Sub.GenerateCategory.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	v.Local.sProduct.Declare
+	v.Local.sCategory.Declare
+	v.Local.sQuery.Declare
+	
+	F.Intrinsic.Control.If(V.DataTable.dtCategory.Exists,=,False)
+		'Generate the Category for Profit & Loss Reports, other than Sales & COGS
+'		F.Data.DataTable.CreateFromString("dtCategory","All#!#G&A*!*Socket#!#Cost of Design*!*Socket#!#Cost of Consumables*!*Socket#!#Other Income*!*Socket#!#Investing Income*!*Socket#!#Tax Income*!*Pin#!#Cost of Design*!*Pin#!#Cost of Consumables*!*Pin#!#Other Income*!*Pin#!#Investing Income*!*Pin#!#Tax Income","Product*!*Category","String*!*String","#!#","*!*",True)
+		F.Data.DataTable.CreateFromString("dtCategory","All#!#G&A*!*Socket#!#COGS Variance*!*Socket#!#Cost of Design*!*Socket#!#Cost of Consumables*!*Socket#!#Other Income*!*Socket#!#Investing Income*!*Socket#!#Tax Income*!*Pin#!#COGS Variance*!*Pin#!#Cost of Design*!*Pin#!#Cost of Consumables*!*Pin#!#Other Income*!*Pin#!#Investing Income*!*Pin#!#Tax Income","Product*!*Category","String*!*String","#!#","*!*",True)
+	F.Intrinsic.Control.EndIf
+	
+	'Bind DataTable to GridView
+	Gui.frmMain.gsgcCategory.AddGridviewFromDatatable("gvCategory","dtCategory")
+	
+	'Format the Gridview
+	Gui.frmMain.gsgcCategory.SetGridviewProperty("gvCategory","EnableAppearanceOddRow",True)
+	Gui.frmMain.gsgcCategory.SetGridviewProperty("gvCategory","ShowGroupPanel",False)
+	Gui.frmMain.gsgcCategory.SetGridviewProperty("gvCategory","MultiSelect",False)
+	
+	'Caption
+	f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcCategory","GV","gvCategory","sInputColumns","Product@!@Product,Category@!@Category","sProperty","Caption")
+	
+	'Header Font Bold
+	f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcCategory","GV","gvCategory","sInputColumns","Product,Category","sProperty","HeaderFontBold")
+	
+	'Width	
+	f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcCategory","GV","gvCategory","sInputColumns","Product","sProperty","MinWidth","sWidth","80")
+	f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcCategory","GV","gvCategory","sInputColumns","Category","sProperty","MinWidth","sWidth","150")
+	
+	'For RowCell Click
+	f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcCategory","GV","gvCategory","sInputColumns","Product,Category","sProperty","For_RowCell_Click")
+	
+	'Set the main view of the GridView
+	Gui.frmMain.gsgcCategory.MainView("gvCategory")
+	
+	F.Intrinsic.Control.If(V.DataTable.dtCategory.RowCount,>,0)
+		V.Global.iSelectedRow.Set(0)
+		Gui.frmMain.gsgcCategory.SelectRow("gvCategory",0)
+		
+		Gui.frmMain.gsgcCategory.GetCellValueByColumnName("gvCategory","Product",0,v.Local.sProduct)
+		Gui.frmMain.gsgcCategory.GetCellValueByColumnName("gvCategory","Category",0,v.Local.sCategory)
+		Gui.frmMain.txtProduct.Text(v.Local.sProduct)
+		Gui.frmMain.txtCategory.Text(v.Local.sCategory)
+	
+		F.Intrinsic.Control.If(V.DataTable.dtCatGLAccounts.Exists,=,True)
+			F.Data.DataTable.Close("dtCatGLAccounts")
+		F.Intrinsic.Control.EndIf
+		
+		'Select the GL Accounts for the selected Category
+		f.Intrinsic.String.Build("select A.GL_ACCOUNT, B.DESCR from GAB_6853_CAT_ACCTS A LEFT JOIN GL_MASTER B ON A.GL_ACCOUNT = B.GL_ACCOUNT WHERE A.CATEGORY = '{0}' and A.PRODUCT = '{1}';",v.Local.sCategory.Trim,v.Local.sProduct.Trim,v.Local.sQuery)
+		f.Data.DataTable.CreateFromSQL("dtCatGLAccounts","con",v.Local.sQuery,True)
+		F.Data.DataTable.AddColumn("dtCatGLAccounts","Delete","Long",1)
+		
+		'Bind DataTable to GridView
+		Gui.frmMain.gsgcGLAccts.AddGridviewFromDatatable("gvCatGLAccounts","dtCatGLAccounts")
+		
+		f.Intrinsic.Control.CallSub(FormatCatGLAcctsGV)
+		
+		'Set the main view of the GridView
+		Gui.frmMain.gsgcGLAccts.MainView("gvCatGLAccounts")
+	F.Intrinsic.Control.EndIf
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+	f.Intrinsic.UI.Msgbox(V.Local.sError)	
+	f.Intrinsic.Control.CallSub(frmMain_UnLoad)
+f.Intrinsic.Control.EndTry	
+Program.Sub.GenerateCategory.End
+
+Program.Sub.gsgcCategory_RowClick.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	v.Local.sProduct.Declare
+	v.Local.sCategory.Declare
+	v.Local.sQuery.Declare
+
+	v.Global.iSelectedRow.Set(v.Args.RowIndex)
+	Gui.frmMain.gsgcCategory.GetCellValueByColumnName("gvCategory","Product",v.Global.iSelectedRow,v.Local.sProduct)
+	Gui.frmMain.gsgcCategory.GetCellValueByColumnName("gvCategory","Category",v.Global.iSelectedRow,v.Local.sCategory)
+	Gui.frmMain.txtProduct.Text(v.Local.sProduct)
+	Gui.frmMain.txtCategory.Text(v.Local.sCategory)
+	
+	F.Intrinsic.Control.If(V.DataTable.dtCatGLAccounts.Exists,=,True)
+		F.Data.DataTable.Close("dtCatGLAccounts")
+	F.Intrinsic.Control.EndIf
+	
+	'Select the GL Accounts for the selected Category
+	f.Intrinsic.String.Build("select A.GL_ACCOUNT, B.DESCR from GAB_6853_CAT_ACCTS A LEFT JOIN GL_MASTER B ON A.GL_ACCOUNT = B.GL_ACCOUNT WHERE A.CATEGORY = '{0}' and A.PRODUCT = '{1}';",v.Local.sCategory.Trim,v.Local.sProduct.Trim,v.Local.sQuery)
+	f.Data.DataTable.CreateFromSQL("dtCatGLAccounts","con",v.Local.sQuery,True)
+	F.Data.DataTable.AddColumn("dtCatGLAccounts","Delete","Long",1)
+	
+	'Bind DataTable to GridView
+	Gui.frmMain.gsgcGLAccts.AddGridviewFromDatatable("gvCatGLAccounts","dtCatGLAccounts")
+	
+	f.Intrinsic.Control.CallSub(FormatCatGLAcctsGV)
+
+	'Set the main view of the GridView
+	Gui.frmMain.gsgcGLAccts.MainView("gvCatGLAccounts")
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+	f.Intrinsic.UI.Msgbox(V.Local.sError)	
+	f.Intrinsic.Control.CallSub(frmMain_UnLoad)
+f.Intrinsic.Control.EndTry		
+Program.Sub.gsgcCategory_RowClick.End
+
+Program.Sub.gsgcGLAccts_RowCellClick.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	v.Local.sQuery.Declare
+	v.Local.sProduct.Declare
+	v.Local.sCategory.Declare
+	v.Local.sGLAccount.Declare
+	
+	v.Local.sProduct.Set(V.Screen.frmMain!txtProduct.Text.Trim)
+	v.Local.sCategory.Set(V.Screen.frmMain!txtCategory.Text.Trim)
+	Gui.frmMain.gsgcGLAccts.GetCellValueByColumnName("gvCatGLAccounts","GL_ACCOUNT",v.Args.RowIndex,v.Local.sGLAccount)
+	f.Intrinsic.String.Build("delete from GAB_6853_CAT_ACCTS where CATEGORY = '{0}' and PRODUCT = '{1}' and GL_ACCOUNT = '{2}';",v.Local.sCategory.Trim,v.Local.sProduct.Trim,v.Local.sGLAccount.Trim,v.Local.sQuery)
+	f.ODBC.Connection!con.Execute(v.Local.sQuery)
+	
+	f.Data.DataTable.DeleteRow("dtCatGLAccounts",v.Args.RowIndex)
+	f.Data.DataTable.AcceptChanges("dtCatGLAccounts")
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+	f.Intrinsic.UI.Msgbox(V.Local.sError)	
+	f.Intrinsic.Control.CallSub(frmMain_UnLoad)
+f.Intrinsic.Control.EndTry		
+Program.Sub.gsgcGLAccts_RowCellClick.End
+
+Program.Sub.FormatCatGLAcctsGV.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	
+	'Format the Gridview
+	Gui.frmMain.gsgcGLAccts.SetGridviewProperty("gvCatGLAccounts","EnableAppearanceOddRow",True)
+	Gui.frmMain.gsgcGLAccts.SetGridviewProperty("gvCatGLAccounts","ShowGroupPanel",False)
+	Gui.frmMain.gsgcGLAccts.SetGridviewProperty("gvCatGLAccounts","MultiSelect",False)
+	
+	'Caption
+	f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcGLAccts","GV","gvCatGLAccounts","sInputColumns","GL_ACCOUNT@!@GL Account,DESCR@!@Description","sProperty","Caption")
+	
+	'Header Font Bold
+	f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcGLAccts","GV","gvCatGLAccounts","sInputColumns","GL_ACCOUNT,DESCR","sProperty","HeaderFontBold")
+	
+	'Width	
+	f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcGLAccts","GV","gvCatGLAccounts","sInputColumns","GL_ACCOUNT","sProperty","MinWidth","sWidth","80")
+	f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcGLAccts","GV","gvCatGLAccounts","sInputColumns","DESCR","sProperty","MinWidth","sWidth","250")
+	f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcGLAccts","GV","gvCatGLAccounts","sInputColumns","Delete","sProperty","MinWidth","sWidth","60")
+	
+	'Editor Button
+	f.Intrinsic.Control.CallSub(FormatBulk,"FORM","frmMain","FORM_UNLOAD","frmMain_UnLoad","GS","gsgcGLAccts","GV","gvCatGLAccounts","sInputColumns","Delete@!@Delete","sProperty","EditorButton")
+
+f.Intrinsic.Control.Catch
+	f.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+	f.Intrinsic.UI.Msgbox(V.Local.sError)	
+	f.Intrinsic.Control.CallSub(frmMain_UnLoad)
+f.Intrinsic.Control.EndTry	
+Program.Sub.FormatCatGLAcctsGV.End
+
+Program.Sub.cmdUpdatePct_Click.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	v.Local.iTCPct.Declare
+	v.Local.iSocketPct.Declare
+	v.Local.iPinPct.Declare
+	v.Local.sRetValue.Declare
+	
+	f.Intrinsic.Control.If(v.Screen.frmMain!txtSocketPct.Text.Trim,<>,"")
+		v.Local.sRetValue.Set(v.Screen.frmMain!txtSocketPct.Text.Trim)
+		v.Local.iSocketPct.Set(v.Local.sRetValue.Long)
+		f.Intrinsic.Math.Sub(100,v.Local.iSocketPct,v.Local.iPinPct)		
+		f.Intrinsic.Math.Add(v.Local.iSocketPct,v.Local.iPinPct,v.Local.iTCPct)
+		f.ODBC.Connection!con.OpenLocalRecordsetRW("rstPct","select TOP 1 TC, SOCKET, PIN from GAB_6853_GA_PCT;")
+		f.Intrinsic.Control.If(v.ODBC.con!rstPct.EOF,=,True)
+			'Insert the record
+			f.ODBC.con!rstPct.AddNew
+			f.ODBC.con!rstPct.Set!TC(v.Local.iTCPct)
+			f.ODBC.con!rstPct.Set!SOCKET(v.Local.iSocketPct)
+			f.ODBC.con!rstPct.Set!PIN(v.Local.iPinPct)
+			f.ODBC.con!rstPct.Update
+		f.Intrinsic.Control.Else
+			'Update the record
+			f.ODBC.con!rstPct.Set!TC(v.Local.iTCPct)
+			f.ODBC.con!rstPct.Set!SOCKET(v.Local.iSocketPct)
+			f.ODBC.con!rstPct.Set!PIN(v.Local.iPinPct)
+			f.ODBC.con!rstPct.Update			
+		f.Intrinsic.Control.EndIf
+		f.ODBC.con!rstPct.Close
+	f.Intrinsic.Control.EndIf
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+	f.Intrinsic.UI.Msgbox(V.Local.sError)	
+	f.Intrinsic.Control.CallSub(frmMain_UnLoad)
+f.Intrinsic.Control.EndTry		
+Program.Sub.cmdUpdatePct_Click.End
+
+Program.Sub.GetGAPctBreakdown.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	
+	F.ODBC.Connection!con.OpenLocalRecordsetRO("rstPct","select TOP 1 TC, SOCKET, PIN from GAB_6853_GA_PCT;")
+	F.Intrinsic.Control.If(v.ODBC.con!rstPct.EOF,=,False)
+		Gui.frmMain.txtSocketPct.Text(v.ODBC.con!rstPct.FieldVal!SOCKET)
+		Gui.frmMain.txtPinPct.Text(v.ODBC.con!rstPct.FieldVal!PIN)
+	F.Intrinsic.Control.EndIf
+	f.ODBC.con!rstPct.Close
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+	f.Intrinsic.UI.Msgbox(V.Local.sError)	
+	f.Intrinsic.Control.CallSub(frmMain_UnLoad)
+f.Intrinsic.Control.EndTry			
+Program.Sub.GetGAPctBreakdown.End
+
+Program.Sub.txtSocketPct_LostFocus.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	v.Local.iSocketPct.Declare
+	v.Local.iPinPct.Declare
+	v.Local.sRetValue.Declare
+	
+	f.Intrinsic.Control.If(v.Screen.frmMain!txtSocketPct.Text.Trim,<>,"")
+		v.Local.sRetValue.Set(v.Screen.frmMain!txtSocketPct.Text.Trim)
+		v.Local.iSocketPct.Set(v.Local.sRetValue.Long)
+		f.Intrinsic.Math.Sub(100,v.Local.iSocketPct,v.Local.iPinPct)
+		
+		Gui.frmMain.txtSocketPct.Text(v.Local.iSocketPct.String)
+		Gui.frmMain.txtPinPct.Text(v.Local.iPinPct.String)
+	f.Intrinsic.Control.EndIf
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+	f.Intrinsic.UI.Msgbox(V.Local.sError)	
+	f.Intrinsic.Control.CallSub(frmMain_UnLoad)
+f.Intrinsic.Control.EndTry		
+Program.Sub.txtSocketPct_LostFocus.End
+
+Program.Sub.Comments.Start
+${$5$}$20.1.8286.22461$}$1
+${$6$}$tdjohan$}$20220930091659829$}$8rAQhOSvlohpQhMDm1j544LwmwXnRbkhHveD2AHGdrGwKeX2jP8JR7OCBUmr59Qxgr3TQrbfoZc=
+Program.Sub.Comments.End
